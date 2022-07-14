@@ -13,16 +13,17 @@ services:
       - "18080:8080"
       - "18081:8081"
       - "18091:8091"
+      - "18099:20038"
     depends_on:
       - zookeeper
-      - mysql
+      - mariadb
       - kafka
       - redis_sentinel
       - redis_slave
       - redis_master
     links:
       - zookeeper:zk
-      - mysql:db
+      - mariadb:db
       - kafka
       - redis_sentinel
       - redis_slave
@@ -55,8 +56,9 @@ services:
     ports:
       - "26379:26379"
 
-  mysql:
+  mariadb:
     container_name: btc-mysql
+    image: mariadb:10.5.8
     build: ./db/
     ports:
       - "13306:3306"

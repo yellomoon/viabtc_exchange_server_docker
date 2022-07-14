@@ -48,7 +48,7 @@ RUN apt-get install -y liblz4-dev
 ADD build.sh /src/build.sh
 
 # 编译viabtc
-RUN wget https://codeload.github.com/viabtc/viabtc_exchange_server/tar.gz/master -O /src/viabtc.tar.gz &&\
+RUN wget https://codeload.github.com/yellomoon/viabtc_exchange_server/tar.gz/master -O /src/viabtc.tar.gz &&\
  	tar xzvf /src/viabtc.tar.gz  &&\
  	rm -rf /src/viabtc.tar.gz &&\
  	mv viabtc_exchange_server-* viabtc &&\
@@ -98,3 +98,14 @@ EXPOSE 8081
 EXPOSE 8091
 
 CMD ["/btc/start.sh"]
+
+# nginx ws
+EXPOSE 20038
+
+RUN apt install -y nginx
+COPY /btc/ws.conf /etc/nginx/conf.d/ws.conf
+RUN nginx -c /etc/nginx/nginx.conf &&\
+ 	nginx -s reload
+ 	
+
+
